@@ -1,54 +1,21 @@
-# angular-seed — the seed for AngularJS apps
+# Scriba desafio
 
-This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-You can use it to quickly bootstrap your angular webapp projects and dev environment for these
-projects.
+Baseado no [Angular-seed](https://github.com/angular/angular-seed/blob/master/README.md)
+Com ajuda do [Bootstrap 3.0](http://getbootstrap.com)
 
-The seed contains AngularJS libraries, test libraries and a bunch of scripts all preconfigured for
-instant web development gratification. Just clone the repo (or download the zip/tarball), start up
-our (or yours) webserver and you are ready to develop and test your application.
+## Como comecar
 
-The seed app doesn't do much, just shows how to wire two controllers and views together. You can
-check it out by opening app/index.html in your browser (might not work file `file://` scheme in
-certain browsers, see note below).
+* Instale Postgres 9+ na sua maquina.
+* Crie um usuario: scriba com senha: scriba
+* Utilize o scripts/scriba.sql para importar o dump num banco novo
 
-_Note: While angular is client-side-only technology and it's possible to create angular webapps that
-don't require a backend server at all, we recommend hosting the project files using a local
-webserver during development to avoid issues with security restrictions (sandbox) in browsers. The
-sandbox implementation varies between browsers, but quite often prevents things like cookies, xhr,
-etc to function properly when an html page is opened via `file://` scheme instead of `http://`._
+### Comecar node
 
 
-## How to use angular-seed
+* corra 'npm install' para instalar as dependencias
+* corra 'node app.js' para comecar o servidor, o default do porto eh 8080
 
-Clone the angular-seed repository and start hacking...
-
-
-### Running the app during development
-
-You can pick one of these options:
-
-* serve this repository with your webserver
-* install node.js and run `scripts/web-server.js`
-
-Then navigate your browser to `http://localhost:<port>/app/index.html` to see the app running in
-your browser.
-
-
-### Running the app in production
-
-This really depends on how complex is your app and the overall infrastructure of your system, but
-the general rule is that all you need in production are all the files under the `app/` directory.
-Everything else should be omitted.
-
-Angular apps are really just a bunch of static html, css and js files that just need to be hosted
-somewhere, where they can be accessed by browsers.
-
-If your Angular app is talking to the backend server via xhr or other means, you need to figure
-out what is the best way to host the static files to comply with the same origin policy if
-applicable. Usually this is done by hosting the files by the backend server or through
-reverse-proxying the backend server(s) and a webserver(s).
-
+## Se estiver interessado em escreve/manter testes para o software (recomendado)
 
 ### Running unit tests
 
@@ -77,20 +44,6 @@ Requires a webserver, node.js + `./scripts/web-server.js` or your backend server
   * run the tests from console with [Protractor](https://github.com/angular/protractor) via
     `scripts/e2e-test.sh` (on windows: `scripts\e2e-test.bat`)
 
-### Continuous Integration
-
-CloudBees have provided a CI/deployment setup:
-
-<a href="https://grandcentral.cloudbees.com/?CB_clickstart=https://raw.github.com/CloudBees-community/angular-js-clickstart/master/clickstart.json"><img src="https://d3ko533tu1ozfq.cloudfront.net/clickstart/deployInstantly.png"/></a>
-
-If you run this, you will get a cloned version of this repo to start working on in a private git repo, 
-along with a CI service (in Jenkins) hosted that will run unit and end to end tests in both Firefox and Chrome.
-
-### Receiving updates from upstream
-
-When we upgrade angular-seed's repo with newer angular or testing library code, you can just
-fetch the changes and merge them into your project with git.
-
 
 ## Directory Layout
 
@@ -102,9 +55,11 @@ fetch the changes and merge them into your project with git.
       index-async.html  --> just like index.html, but loads js files asynchronously
       js/               --> javascript files
         app.js          --> application
+        controllers/    --> Contem o diretorio com controllers especializados
         controllers.js  --> application controllers
         directives.js   --> application directives
         filters.js      --> custom angular filters
+        sevices/        --> Contem o diretorio com servicos especializados
         services.js     --> custom angular services
       lib/              --> angular and 3rd party javascript libraries
         angular/
@@ -115,6 +70,10 @@ fetch the changes and merge them into your project with git.
       partials/             --> angular view partials (partial html templates)
         partial1.html
         partial2.html
+
+    utils/              --> Contem utilidades para o backend servidor
+    routes/             --> Contem a logica dos servicos
+    app.js              --> Contem o servidor node
 
     config/karma.conf.js        --> config file for running unit tests with Karma
     config/protractor-conf.js    --> config file for running e2e tests with Protractor
