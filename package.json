@@ -1,0 +1,21 @@
+{
+  "name": "scriba-desafio",
+  "version" : "0.0.1",
+  "description": "Desafios scriba",
+  "author" : "Daniel Bercht <d.bercht@gmail.com",
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/dbercht/limbrup-data-collector.git"  
+  },
+  "dependencies" : {
+    "express" : "3.x",
+    "pg" : "2.11.x" 
+  },
+  "devDependencies": {
+    "phantomjs" : "~1.9",
+    "karma" : "~0.10",
+    "karma-junit-reporter" : "~0.1",
+    "karma-jasmine" : "~0.1",
+    "protractor" : "~0.17.0"
+  }
+}

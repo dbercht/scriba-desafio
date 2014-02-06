@@ -1,0 +1,6 @@
+.table-container{
+  height:200px;
+  overflow-y:scroll;
+  border-bottom:1px solid black;
+  border-top:1px solid black;
+}
