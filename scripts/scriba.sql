@@ -42,7 +42,7 @@ SET default_with_oids = false;
 
 CREATE TABLE tbl_exames (
     id bigint NOT NULL,
-    titulo character(64),
+    titulo character varying(50),
     so_sexo character(1)
 );
 
@@ -296,10 +296,10 @@ ALTER TABLE ONLY tbl_pacientes ALTER COLUMN id SET DEFAULT nextval('tbl_paciente
 --
 
 COPY tbl_exames (id, titulo, so_sexo) FROM stdin;
-1	Enema                                                           	 
-2	Mamografia                                                      	F
-3	XYZ                                                             	 
-4	Urologia                                                        	M
+1	Enema	 
+2	Mamografia	F
+3	XYZ	 
+4	Urologia	M
 \.
 
 
@@ -348,10 +348,7 @@ SELECT pg_catalog.setval('tbl_pac_exame_fotos_paciente_id_seq', 1, false);
 COPY tbl_pac_exames (paciente_id, dia, exame_id, peso, altura, laudo, id) FROM stdin;
 2	1989-02-14 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	1
 2	1989-02-14 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	2
-2	2014-02-14 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	3
 2	2013-11-14 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	4
-2	2011-04-11 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	5
-2	1998-06-12 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	6
 2	1997-05-13 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	7
 3	2013-04-11 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	8
 3	2011-07-10 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	9
@@ -363,6 +360,10 @@ COPY tbl_pac_exames (paciente_id, dia, exame_id, peso, altura, laudo, id) FROM s
 3	2011-08-11 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	15
 4	2011-06-11 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	16
 5	2011-05-11 00:00:00	1	77.4000000000000057	188	Bla blababla blaxb blabl balabl	17
+2	2014-02-10 12:32:21	3	190.319999999999993	188.400000000000006	Blablablabla	21
+2	2014-02-10 17:32:21	4	190.319999999999993	188.400000000000006	Blablablabla	28
+2	2014-02-10 22:32:21	1	190.319999999999993	188.400000000000006	Blablablabla	29
+2	2014-02-10 17:32:21	4	190.319999999999993	188.400000000000006	Blablablabla	27
 \.
 
 
@@ -377,7 +378,7 @@ SELECT pg_catalog.setval('tbl_pac_exames_exame_id_seq', 1, false);
 -- Name: tbl_pac_exames_id_seq; Type: SEQUENCE SET; Schema: public; Owner: scriba
 --
 
-SELECT pg_catalog.setval('tbl_pac_exames_id_seq', 17, true);
+SELECT pg_catalog.setval('tbl_pac_exames_id_seq', 29, true);
 
 
 --
