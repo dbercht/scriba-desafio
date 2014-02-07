@@ -1,3 +1,4 @@
+/*global angular:false, console:false, confirm:false */
 (function() {
   'use strict';
 
@@ -8,7 +9,7 @@
     //Cada controller recebe as dependencia e voce 'injeta' elas na funcao
     //Fica facil testar isso porque pode mock todas dependencias
     //Mas eu nao testei ainda
-    controller('HistoricoCtrl', ['$scope', '$routeParams', 'Paciente', 'PacienteExames', 'PacienteExameImagens', function($scope, $routeParams, Paciente, PacienteExames, PacienteExameImagens) {
+    controller('HistoricoCtrl', ['$scope', '$routeParams', '$modal','Paciente', 'PacienteExames', 'PacienteExameImagens', function($scope, $routeParams, $modal, Paciente, PacienteExames, PacienteExameImagens) {
       console.log("In HistoricoCtrl");
       
       //O resource criado nao estao muito adquado, voce pode mudar o 'exame' endpoint para retornar informacao do paciente tambem
@@ -30,7 +31,47 @@
             return;
           }
         }
-        console.log("Deletar, nao implementado");
+        PacienteExames.delete( { pacienteId: $routeParams.pacienteId, exameId: exame.id }, function() {
+          $scope.exames = PacienteExames.query( { pacienteId: $routeParams.pacienteId });
+        });
+      };
+
+      $scope.abrirModal = function(exame) {
+        var modalInstance = $modal.open({
+          templateUrl: 'partials/pacientes/exameModal.html',
+            controller: 'PacienteExameModalCtrl',
+            resolve: {
+              paciente: function () { return $scope.paciente; },
+              exame: function () { return exame; }
+            }
+        });
+        modalInstance.result.then(
+            function() {
+              $scope.exames = PacienteExames.query( {pacienteId : $routeParams.pacienteId });
+            }, 
+            function () {
+            }
+            );
+      };
+
+    }])
+
+    .controller('PacienteExameModalCtrl', ['$scope', '$modalInstance', 'PacienteExames', 'Exames', 'paciente', 'exame', function($scope, $modalInstance, PacienteExames, Exames, paciente, exame) {
+      $scope.paciente = paciente;
+      $scope.exame = exame;
+      $scope.exames = Exames.query();
+      $scope.modoEditar = (exame !== undefined);
+
+      $scope.salvar = function () {
+        if ($scope.modoEditar) {
+          var pacienteExame = PacienteExames.update({'pacienteId' : $scope.paciente.id, 'exameId' : $scope.exame.id}, exame);
+        } else {
+          var pacienteExame = PacienteExames.save({'pacienteId' : $scope.paciente.id}, exame);
+        }
+        $modalInstance.close();
+      };
+      $scope.cancelar = function () {
+        $modalInstance.dismiss('cancel');
       };
     }])
 

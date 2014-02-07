@@ -1,3 +1,4 @@
+/* global angular:false */
 (function() {
   'use strict';
 
@@ -14,7 +15,10 @@
     return $resource('/pacientes/:pacienteId', {pacienteId : '@pacienteId'} );
   }]).
   factory('PacienteExames', ['$resource', function($resource) {
-    return $resource('/pacientes/:pacienteId/exames', {pacienteId: '@pacienteId'});
+    return $resource('/pacientes/:pacienteId/exames/:exameId', {pacienteId: '@pacienteId', exameId: '@exameId'},
+      {
+        'update' : { method:'PUT'}
+      });
   }]).
   factory('PacienteExameImagens', ['$resource', function($resource) {
     return $resource('/pacientes/:pacienteId/exames/:exameId/imagens', {pacienteId : '@pacienteId', exameId : '@exameId' });

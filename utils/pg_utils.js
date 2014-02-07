@@ -12,8 +12,14 @@ exports.query = function(res, query, callback) {
           res.send(500);
           return console.error('error running query', err);
         } else {
-          callback(result)
+          callback(result);
         }
     });
+  });
+};
+
+exports.rollback = function(client, done) {
+  client.query("ROLLBACK", function(err) {
+    return done(err);
   });
 };

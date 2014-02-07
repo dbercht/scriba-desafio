@@ -1,7 +1,10 @@
+/*global require:false, exports:false*/
+
 var pgUtil = require('../utils/pg_utils.js');
 
 var queryTodos = "SELECT *" +
                " FROM tbl_pacientes";
+
 var queryAchar = queryTodos + " WHERE id = $1";
 
 var queryExames = "SELECT          pe.id, e.titulo, pe.paciente_id, pe.exame_id, pe.dia, pe.peso, pe.altura, pe.laudo, count(pef) as numero_de_imagens " +
@@ -16,6 +19,19 @@ var queryExameImagens = "SELECT   * "  +
                         "FROM     tbl_pac_exame_fotos pef " +
                         "WHERE    pef.paciente_id=$1 AND pef.exame_id =$2 " +
                         "ORDER BY pef.dia ASC";
+
+var queryCriarExame = "INSERT " +
+                        "INTO  tbl_pac_exames (paciente_id, exame_id, dia, peso, altura, laudo)" +
+                        "VALUES    ($1, $2, $3, $4, $5, $6)";
+                        
+var queryEditarExame = "UPDATE tbl_pac_exames " +
+                        "SET (exame_id, peso, altura, laudo)" +
+                        " = ($3, $4, $5, $6) " +
+                        " where tbl_pac_exames.paciente_id = $1 AND tbl_pac_exames.id = $2";
+
+var queryDeletarExame = "DELETE " +
+                        "FROM     tbl_pac_exames pe " +
+                        "WHERE    pe.paciente_id = $1 AND pe.id = $2";
 
 exports.todos = function(req, res) {
   pgUtil.query (res,
@@ -38,7 +54,7 @@ exports.achar = function(req, res) {
       }, 
       function(result) {
         if (result.rows.length < 1) {
-          res.send(404);
+          res.send(404, { erro: "Paciente nao encontrado"});
         }
         res.send(result.rows[0]);
       });
@@ -53,6 +69,57 @@ exports.exames = function(req, res) {
       }, 
       function(result) {
         res.send(result.rows);
+      });
+};
+
+exports.criarExame = function(req, res) {
+  console.log(req.body);
+  pgUtil.query (res,
+      { 
+        name : "criar_paciente_exame", 
+        text : queryCriarExame,
+        values : [
+          req.params.pacienteId, 
+          req.body.exame_id, 
+          req.body.dia, 
+          req.body.peso, 
+          req.body.altura, 
+          req.body.laudo
+        ]
+      }, 
+      function() {
+        res.send(201);
+      });
+};
+
+exports.editarExame = function(req, res) {
+  pgUtil.query (res,
+      { 
+        name : "editar_paciente_exame", 
+        text : queryEditarExame,
+        values : [
+          req.params.pacienteId, 
+          req.params.exameId,
+          req.body.exame_id, 
+          req.body.peso, 
+          req.body.altura, 
+          req.body.laudo,
+        ]
+      }, 
+      function() {
+        res.send(200);
+      });
+};
+
+exports.deletarExame = function(req, res) {
+  pgUtil.query (res,
+      { 
+        name : "deletar_paciente_exame", 
+        text : queryDeletarExame,
+        values : [req.params.pacienteId, req.params.exameId]
+      }, 
+      function() {
+        res.send(200);
       });
 };
 

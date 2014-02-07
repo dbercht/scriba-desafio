@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h3>{{ modoEditar ? 'Editar' : 'Novo' }} Exame</h3>
+</div>
+<div class="modal-body">
+  <h4>{{paciente.nome}}</h4>
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label for="inputExame" class="col-sm-2 control-label">Exame</label>
+      <div class="col-sm-2">
+        <select ng-model="exame.exame_id" ng-options="exame.id as exame.titulo for exame in exames"></select>
+      </div>
+      <div ng-if="!modoEditar" class="col-sm-8">
+        <datepicker ng-model="exame.dia" disabled></datepicker>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAltura" class="col-sm-2 control-label">Altura (cm)</label>
+      <div class="col-sm-4">
+        <input ng-model="exame.altura" type="number" step="any" class="form-control" id="inputAltura" placeholder="Altura"> 
+      </div>
+      <label for="inputPeso" class="col-sm-2 control-label">Peso (kg)</label>
+      <div class="col-sm-4">
+        <input ng-model="exame.peso" type="number" step="any" class="form-control" id="inputPeso" placeholder="Peso"> 
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputLaudo" class="col-sm-2 control-label">Laudo</label>
+      <div class="col-sm-10">
+        <textarea ng-model="exame.laudo" type="password" class="form-control" id="inputLaudo" placeholder="Laudo" rows='6'></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="salvar()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
