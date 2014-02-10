@@ -58,15 +58,19 @@
 
     .controller('PacienteExameModalCtrl', ['$scope', '$modalInstance', 'PacienteExames', 'Exames', 'paciente', 'exame', function($scope, $modalInstance, PacienteExames, Exames, paciente, exame) {
       $scope.paciente = paciente;
-      $scope.exame = exame;
       $scope.exames = Exames.query();
       $scope.modoEditar = (exame !== undefined);
+      if ($scope.modoEditar) {
+        $scope.exame = exame;
+      } else {
+        $scope.exame = {}
+      }
 
       $scope.salvar = function () {
         if ($scope.modoEditar) {
-          var pacienteExame = PacienteExames.update({'pacienteId' : $scope.paciente.id, 'exameId' : $scope.exame.id}, exame);
+          PacienteExames.update({'pacienteId' : $scope.paciente.id, 'exameId' : $scope.exame.id}, $scope.exame);
         } else {
-          var pacienteExame = PacienteExames.save({'pacienteId' : $scope.paciente.id}, exame);
+          PacienteExames.save({'pacienteId' : $scope.paciente.id}, $scope.exame);
         }
         $modalInstance.close();
       };
