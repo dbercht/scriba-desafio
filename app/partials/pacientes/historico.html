@@ -1,4 +1,8 @@
 <h3>Historico</h3>
+<!-- Dow says:
+  Coloquei esses attributes na marra...
+  A variavel 'paciente' eh a variavel definida no $scope do controller dessa partial: $scope.paciente
+-->
 <div class="well">
 Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | date}} Idade: {{ paciente.ddn | idade }}
 </div>
@@ -6,6 +10,12 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
   <div class="form-group">
     <label for="inputSearch" class="sr-only control-label">Pesquisar</label>
     <div class="col-sm-4">
+      <!-- Dow says:
+        veja que o ng-model esta 'binding' o modelo 'textoPesquisa' para o texto desse input
+        essa variavel esta definida no $scope do controller desse view
+        Isso defini um two-way bind... modifique o modelo aqui, e ele eh refletido no $scope
+                                       modifique o modelo no $scope, e eh refletido aqui
+      -->
       <input type="text" class="form-control" id="inputSearch" ng-model="textoPesquisa" placeholder="Pesquisar">
     </div>
   </div>
@@ -13,6 +23,10 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
   <div class="form-group">
     <label for="inputSearch" class="sr-only control-label">Pesquisar</label>
     <div class="col-sm-4">
+      <!-- Dow says:
+        Binding esse 'select' no modelo ordemCol, definido no $scope do controller desse partial
+        O 'value' dos <options> viram o valor do ordemCol
+      -->
       <select class="form-control" ng-model='ordemCol'>
         <option value="dia">Dia</option>
         <option value="titulo">Exame</option>
@@ -23,6 +37,11 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
   <div class="form-group">
     <label for="inputSearch" class="sr-only control-label">Ordenar</label>
     <div class="col-sm-12">
+      <!-- Dow says:
+        Aqui eu tive que fazer um negocio meio estranho
+        no botao, o ng-click defini um 'click' evento. Quando clicado, ele normalmente correa funcao definida
+        Aqui, eu estou colocando a funcao inline na variavel ordemDir, definida no $scope do controller
+      -->
         <div class="btn-group">
           <button type="button" class="btn btn-default" ng-click="ordemDir=false">Asc</button>
           <button type="button" class="btn btn-default" ng-click="ordemDir=true">Desc</button>
@@ -32,6 +51,12 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
   <div class="form-group">
     <label for="inputSearch" class="sr-only control-label">Novo Laudo</label>
     <div class="col-sm-12">
+      <!-- Dow says:
+        ng-click utilizado utilizado da forma normal
+        abrirModal eh uma funcao definida no $scope do controller
+        Aceita um parametro (exame), tambem definido no $scope
+        Nesse caso, exame eh indefinido, o codigo sabe que isso indica um exame novo
+      -->
       <button type="button" class="btn btn-default btn-sm" ng-click="abrirModal(exame)">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
@@ -49,7 +74,20 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
       </tr>
     </thead>
     <tbody>
+      <!-- Dow says:
+        ng-repeat voce ja deve conhecer.
+        o array 'exames' vai pelo pipe "|" por um filtro da variavel textoPesquisa e orderBy
+        veja documentacao angular sobre o orderBy e filter para entender melhor
+        Sim, o filtro/order nao esta sendo feito no banco de dado, isso vira um problem se seu array tem centenas ou milhares
+        de objetos. Facil de solucionar.
+
+        Tambem perceba o ng-click binding a funcao 'selectionar' passando o parametro 'exame' definido no ng-repeat
+        Essa funcao esta definida no $scope do controller e serve para mostrar a imagem.
+      -->
       <tr ng-repeat="exame in exames | filter:textoPesquisa | orderBy:ordemCol:ordemDir" ng-click="selecionar(exame)">
+        <!-- Dow says:
+          colocando dados do 'exame' na tabela
+        -->
         <td>
           {{ exame.titulo }} 
         </td>
@@ -60,9 +98,15 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
           {{ exame.numero_de_imagens }} 
         </td>
         <td>
+          <!-- Dow says:
+            ng-click ...
+          -->
           <button type="button" class="btn btn-default btn-sm" ng-click="deletar(exame)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
+          <!-- Dow says:
+            ng-click ...
+          -->
           <button type="button" class="btn btn-default btn-sm" ng-click="abrirModal(exame)">
             <span class="glyphicon glyphicon-edit"></span>
           </button>
@@ -73,8 +117,15 @@ Nome : {{ paciente.nome }}  Sexo : {{ paciente.sexo }} DDN : {{ paciente.ddn | d
 </div>
 <br />
 <div>
+  <!-- Dow says:
+   iterando na variacvel exameSelecionado.imagens
+   exameSelecionado esta definido no $scop e eh modificado pelo funcao 'selecionar'
+  -->
   <div class="col-xs-6 col-md-3" ng-repeat="imagem in exameSelecionado.imagens">
     <a href="#" class="thumbnail">
+      <!-- Dow says:
+        colocando o valor da 'imagem' e colocando num custom filter chamado 'imagem_diretorio' definido em js/filters.js
+      -->
       <img src="{{ imagem | imagem_diretorio }}" alt="...">
       <div class="caption">
         {{ imagem.legenda }}

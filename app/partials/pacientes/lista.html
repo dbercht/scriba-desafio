@@ -1,6 +1,21 @@
+<!-- Dow says:
+  Isso eh um exemplo de como "loop" um array
+  utilize ng-repeat em um directive
+-->
 <h3>Lista de pacientes</h3>
 <ul>
+  <!-- Dow says:
+  nesse caso, "pacientes" refere ao $scope.pacientes definido no controller
+  Veja: app/js/app.js para ver qual controller definido para esse partial. 
+
+  ng-repeat eh um 'attribute' definido pelo angular, por isso nao precisa do {{ }}
+  -->
   <li ng-repeat="paciente in pacientes">
+    <!-- Dow says:
+    Aqui, o {{ }} coloca o id do paciente para formar o URL da pagina do paciente
+    ex: "#/pacientes/4"
+    Depois, coloque o nome do paciente: {{ paciente.nome }}
+    -->
     <a href="#/pacientes/{{paciente.id}}">{{ paciente.nome }}</a>
   </li>
 </ul>

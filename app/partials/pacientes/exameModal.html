@@ -1,4 +1,7 @@
 <div class="modal-header">
+  <!-- Dow says:
+    'Ternary', (condicao) ? 'se verdade faca isso' : 'se nao faca isso'
+  -->
   <h3>{{ modoEditar ? 'Editar' : 'Novo' }} Exame</h3>
 </div>
 <div class="modal-body">
@@ -7,12 +10,24 @@
     <div class="form-group">
       <label for="inputExame" class="col-sm-2 control-label">Exame</label>
       <div class="col-sm-2">
+        <!-- Dow says:
+          <select> binding no attribute 'exame_id' da variavel 'exame' definida no $scop do controller
+          utilizando attribute ng-options da angular para criar um select populado com:
+          <options value="exame.id">exame.titulo</options>
+          para todo 'exame' do array 'exames' definido no $scope do controller
+        -->
         <select ng-model="exame.exame_id" ng-options="exame.id as exame.titulo for exame in exames"></select>
       </div>
+      <!-- Dow says:
+        ng-if, aparece somente se a variavel modoEdita do $scope do controller nao eh verdade
+      -->
       <div ng-if="!modoEditar" class="col-sm-8">
         <datepicker ng-model="exame.dia" disabled></datepicker>
       </div>
     </div>
+    <!-- Dow says:
+      aqui todos aspectos de um 'exame' tem um binding.
+    -->
     <div class="form-group">
       <label for="inputAltura" class="col-sm-2 control-label">Altura (cm)</label>
       <div class="col-sm-4">
@@ -31,7 +46,10 @@
     </div>
   </form>
 </div>
+<!-- Dow says:
+    Botoes com ng-click bdinging um 'click' com as funcoes, definidas no $scope do controller
+-->
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="salvar()">OK</button>
-  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-warning" ng-click="cancelar()">Cancel</button>
 </div>
